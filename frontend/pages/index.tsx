@@ -18,6 +18,8 @@ const Home: NextPage = () => {
   const [spinning, setSpinning] = useState(false);
 
   const handlePlayClicked = () => {
+    cheerAudioRef.current?.pause();
+    cheerAudioRef.current?.load();
     setSpinning(true);
     blockListRef.current?.spin();
     sendRollRequest().then(({ data }) => {
@@ -45,17 +47,17 @@ const Home: NextPage = () => {
   };
 
   const handleSoundEffectsToggle = () => {
-    if(soundEffectsEnabled) {
-      document.querySelectorAll('audio').forEach(audio => audio.pause())
+    if (soundEffectsEnabled) {
+      document.querySelectorAll("audio").forEach((audio) => audio.pause());
     } else {
-      document.querySelectorAll('audio').forEach(audio => {
-        if(audio.currentTime > 0) {
-          audio.play()
+      document.querySelectorAll("audio").forEach((audio) => {
+        if (audio.currentTime > 0) {
+          audio.play();
         }
-      })
+      });
     }
-    toggleSoundEffectsEnabled()
-  }
+    toggleSoundEffectsEnabled();
+  };
 
   useEffect(() => {
     const run = async () => {
@@ -95,26 +97,28 @@ const Home: NextPage = () => {
         </div>
         <h1 className={styles.title}>Jackpot!</h1>
 
-        <span className="text-3xl mt-5">Balance: {balance}</span>
-        <span className="text-3xl mt-3">Credit: {credit}</span>
-
-        <div className="flex flex-row flex-wrap items-center gap-6 h-[360px] mt-20">
-          <BlockList ref={blockListRef} />
-
-          <button
-            className="btn btn-primary btn-lg mt-5 h-full"
-            disabled={spinning || credit <= 0}
-            onClick={handlePlayClicked}
-          >
-            🎰 Play 🎰
-          </button>
-        </div>
-
         <CashoutButton
           className="mt-8"
           disabled={spinning || credit <= 0}
           onClicked={handleCashoutClicked}
         />
+        <span className="text-3xl mt-5">Balance: {balance}</span>
+        <span className="text-3xl mt-3">Credit: {credit}</span>
+
+        <div className="flex flex-row flex-wrap items-center justify-center gap-6 h-[360px] mt-10">
+          <BlockList ref={blockListRef} />
+
+            <button
+              className={
+                "btn btn-primary btn-lg mt-5" +
+                (spinning ? " animate-downup" : "")
+              }
+              disabled={spinning || credit <= 0}
+              onClick={handlePlayClicked}
+            >
+              🎰 Play 🎰
+            </button>
+        </div>
       </main>
     </div>
   );

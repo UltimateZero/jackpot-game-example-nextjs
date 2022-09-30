@@ -1,8 +1,4 @@
-import {
-  forwardRef,
-  useImperativeHandle,
-  useRef,
-} from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import { useApp } from "../context/AppContext";
 import { LoopingBlock } from "./LoopingBlock";
 
@@ -17,7 +13,9 @@ export const BlockList = forwardRef(function BlockList(_props, ref) {
       if (soundEffectsEnabled) {
         audioRef.current?.play();
       }
-      blocksEls.current.forEach((block) => block.startSpin());
+      setTimeout(() => {
+        blocksEls.current.forEach((block) => block.startSpin());
+      }, 500);
     },
     stopOn(result: Array<number>) {
       blocksEls.current.forEach((block, index) => {
@@ -36,7 +34,7 @@ export const BlockList = forwardRef(function BlockList(_props, ref) {
   return (
     <>
       <audio ref={audioRef} loop>
-        <source src="/theyseemerolling.mp3" type="audio/mpeg" />
+        <source src="/pull-lever.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
       <div className="mt-3 relative grid grid-cols-3">
@@ -47,7 +45,7 @@ export const BlockList = forwardRef(function BlockList(_props, ref) {
             ref={(element) => (blocksEls.current[index] = element)}
           />
         ))}
-        <div className="absolute w-[360px] h-[120px] border-4 border-green-400 left-0 top-[120px]"></div>
+        <div className="absolute w-[360px] h-[120px] border-4 border-yellow-400 left-0 top-[120px]"></div>
       </div>
     </>
   );
