@@ -13,7 +13,9 @@ export const BlockList = forwardRef(function BlockList(_props, ref) {
   const blocksEls = useRef(new Array(3).fill(null));
   useImperativeHandle(ref, () => ({
     spin() {
-      audioRef.current?.play();
+      if (process.env.NEXT_PUBLIC_AUDIO_EFFECTS === "true") {
+        audioRef.current?.play();
+      }
       blocksEls.current.forEach((block) => block.startSpin());
     },
     stopOn(result: Array<number>) {

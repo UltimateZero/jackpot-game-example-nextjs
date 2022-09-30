@@ -67,8 +67,10 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
               index: stopOffsetIndex + 1,
               smooth: true,
             });
-            audioRef.current?.play();
-            resolve()
+            if (process.env.NEXT_PUBLIC_AUDIO_EFFECTS === "true") {
+              audioRef.current?.play();
+            }
+            resolve();
             return stopOffsetIndex;
           });
         }, 1000 * (MAX_BLOCKS - delayMultiplier + 1));
