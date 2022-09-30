@@ -7,9 +7,11 @@ import { sendCashoutRequest, sendRollRequest } from "../lib/get-account";
 import { CashoutButton } from "../components/CashoutButton";
 import { BlockList } from "../components/BlockList";
 import { doConfetti } from "../lib/confetti";
+import { useApp } from "../context/AppContext";
 
 const Home: NextPage = () => {
   const { balance, credit, login, updateCredit, updateBalance } = useAuth();
+  const { soundEffectsEnabled, toggleSoundEffectsEnabled } = useApp();
   const blockListRef = useRef(null);
   const winAudioRef = useRef<HTMLAudioElement>(null);
   const cheerAudioRef = useRef<HTMLAudioElement>(null);
@@ -25,7 +27,7 @@ const Home: NextPage = () => {
         setTimeout(() => {
           setSpinning(false);
           updateCredit(data.credit);
-          if (data.won) {
+          if (data.won && soundEffectsEnabled) {
             doConfetti();
             winAudioRef.current?.play();
             cheerAudioRef.current?.play();
@@ -40,7 +42,7 @@ const Home: NextPage = () => {
       updateCredit(data.credit);
       updateBalance(data.balance);
     });
-  }
+  };
 
   useEffect(() => {
     const run = async () => {
@@ -66,6 +68,18 @@ const Home: NextPage = () => {
           <source src="/cheer.mp3" type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
+
+        <div className="form-control absolute top-3 left-3">
+          <label className="label cursor-pointer">
+            <span className="label-text mr-2">Sound Effects</span>
+            <input
+              type="checkbox"
+              className="toggle toggle-primary"
+              checked={soundEffectsEnabled}
+              onChange={toggleSoundEffectsEnabled}
+            />
+          </label>
+        </div>
         <h1 className={styles.title}>Jackpot!</h1>
 
         <span className="text-3xl mt-5">Balance: {balance}</span>
@@ -83,7 +97,11 @@ const Home: NextPage = () => {
           </button>
         </div>
 
-        <CashoutButton className="mt-8" disabled={spinning || credit <= 0} onClicked={handleCashoutClicked}/>
+        <CashoutButton
+          className="mt-8"
+          disabled={spinning || credit <= 0}
+          onClicked={handleCashoutClicked}
+        />
       </main>
     </div>
   );

@@ -1,5 +1,6 @@
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import useVirtual from "react-cool-virtual";
+import { useApp } from "../context/AppContext";
 
 // const symbolsMap = new Map<string, string>([
 //   ["cherry", "🍒"],
@@ -23,6 +24,7 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
   { delayMultiplier }: { delayMultiplier: number },
   ref
 ) {
+  const { soundEffectsEnabled } = useApp();
   const [offsetIndex, setOffsetIndex] = useState<number>(0);
   const intervalRef = useRef<any>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -68,7 +70,8 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
               index: stopOffsetIndex + 1,
               smooth: true,
             });
-            if (process.env.NEXT_PUBLIC_AUDIO_EFFECTS === "true") {
+            // if (process.env.NEXT_PUBLIC_AUDIO_EFFECTS === "true") {
+            if (soundEffectsEnabled) {
               audioRef.current?.play();
             }
             resolve(true);
@@ -88,7 +91,7 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
       <div
         ref={outerRef} // Attach the `outerRef` to the scroll container
         style={{
-          width: ITEM_SIZE+"px",
+          width: ITEM_SIZE + "px",
           height: ITEM_SIZE * NUM_BLOCKS + "px",
           overflow: "hidden",
         }}
@@ -97,7 +100,11 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
         <div ref={innerRef}>
           {items.map(({ index, size }) => (
             // You can set the item's height with the `size` property
-            <div key={index} style={{ height: `${size}px`, fontSize:"80px" }} className="select-none">
+            <div
+              key={index}
+              style={{ height: `${size}px`, fontSize: "80px" }}
+              className="select-none"
+            >
               {symbols[index % symbols.length]}
             </div>
           ))}

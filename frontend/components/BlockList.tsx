@@ -5,15 +5,18 @@ import {
   useRef,
   useState,
 } from "react";
+import { useApp } from "../context/AppContext";
 import { LoopingBlock } from "./LoopingBlock";
 
 export const BlockList = forwardRef(function BlockList(_props, ref) {
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const { soundEffectsEnabled } = useApp();
 
+  const audioRef = useRef<HTMLAudioElement>(null);
   const blocksEls = useRef(new Array(3).fill(null));
   useImperativeHandle(ref, () => ({
     spin() {
-      if (process.env.NEXT_PUBLIC_AUDIO_EFFECTS === "true") {
+      //   if (process.env.NEXT_PUBLIC_AUDIO_EFFECTS === "true") {
+      if (soundEffectsEnabled) {
         audioRef.current?.play();
       }
       blocksEls.current.forEach((block) => block.startSpin());
