@@ -44,6 +44,19 @@ const Home: NextPage = () => {
     });
   };
 
+  const handleSoundEffectsToggle = () => {
+    if(soundEffectsEnabled) {
+      document.querySelectorAll('audio').forEach(audio => audio.pause())
+    } else {
+      document.querySelectorAll('audio').forEach(audio => {
+        if(audio.currentTime > 0) {
+          audio.play()
+        }
+      })
+    }
+    toggleSoundEffectsEnabled()
+  }
+
   useEffect(() => {
     const run = async () => {
       await login();
@@ -76,7 +89,7 @@ const Home: NextPage = () => {
               type="checkbox"
               className="toggle toggle-primary"
               checked={soundEffectsEnabled}
-              onChange={toggleSoundEffectsEnabled}
+              onChange={handleSoundEffectsToggle}
             />
           </label>
         </div>
