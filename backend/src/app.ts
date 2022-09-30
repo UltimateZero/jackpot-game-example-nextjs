@@ -16,7 +16,9 @@ app.use(
   })
 );
 app.use(express.json());
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: (origin, callback)=>{
+  callback(null, ["http://localhost:3000", "https://uz-jackpot-nextjs.netlify.app"]);
+} }));
 
 class GameState {
   credit: number = 10;
@@ -100,6 +102,8 @@ app.get(`/accounts/:id`, async (req, res) => {
   // save the account id to the game state (sort of like a login)
   if (result) {
     gameState.accountId = result.id;
+  } else {
+    return res.status(404).send("Account not found");
   }
   res.json({ ...result, credit: gameState.credit });
 });
