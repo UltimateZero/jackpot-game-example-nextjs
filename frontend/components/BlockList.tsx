@@ -38,7 +38,7 @@ export const BlockList = forwardRef(function BlockList(_props, ref) {
         <source src="/slot-machine-payout-81725.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
-      <div className="list-container">
+      <div className="mt-3 relative grid grid-cols-3">
         {blocksEls.current.map((_, index) => (
           <LoopingBlock
             key={index}

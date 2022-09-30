@@ -1,8 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: "Comic Sans", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
@@ -15,13 +19,6 @@ a {
   box-sizing: border-box;
 }
 
-.list-container {
-  position: relative;
-  margin-top: 10px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
 .highlighter {
   box-sizing: border-box;
   position: absolute;
@@ -30,10 +27,4 @@ a {
   top: 68px;
   left: 0;
   border: 4px solid  #8cd574;
-}
-
-.cashout-button {
-  font-size: 32px;
-  position: relative;
- 
 }

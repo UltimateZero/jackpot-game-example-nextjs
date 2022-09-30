@@ -17,11 +17,11 @@ const Home: NextPage = () => {
   const { user, balance, credit, login, logout, updateCredit } = useAuth();
   const blockListRef = useRef(null);
   const handlePlayClicked = () => {
-    blockListRef.current.spin();
+    blockListRef.current?.spin();
     sendRollRequest().then(({ data }) => {
       setTimeout(() => {
         console.log("Data", data.result);
-        blockListRef.current.stopOn(data.result);
+        blockListRef.current?.stopOn(data.result);
         setTimeout(() => {
           updateCredit(data.credit);
         }, 3000);
@@ -54,15 +54,13 @@ const Home: NextPage = () => {
         <BlockList ref={blockListRef} />
 
         <button
-          style={{ marginTop: "30px", fontSize: "2rem" }}
+          className="btn btn-primary btn-wide mt-5"
           onClick={handlePlayClicked}
         >
           Play
         </button>
 
-        <div style={{ position: "relative", width: "100%", marginTop: "20px" }}>
-          <CashoutButton />
-        </div>
+        <CashoutButton className="mt-8" />
       </main>
     </div>
   );
