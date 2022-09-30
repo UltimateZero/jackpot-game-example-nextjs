@@ -13,18 +13,16 @@ const toEmoji = (fruit: string) => {
   return symbolsMap.get(fruit) || "🍒";
 };
 
-
-
 const MAX_BLOCKS = 3; // Number of blocks in the slot machine
 const ITEMS_COUNT = 15000;
 const SPIN_SPEED = 35; //ms
-
 export const LoopingBlock = forwardRef(function LoopingBlock(
   { delayMultiplier }: { delayMultiplier: number },
   ref
 ) {
   const [offsetIndex, setOffsetIndex] = useState<number>(0);
   const intervalRef = useRef<any>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const { outerRef, innerRef, items, scrollToItem } = useVirtual<
     HTMLDivElement,
     HTMLDivElement
@@ -57,41 +55,51 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
       }, SPIN_SPEED * delayMultiplier);
     },
 
-    stopOn(stopIndex: number) {
-      setTimeout(() => {
-        this.stopSpin();
-        setOffsetIndex((offset) => {
-          const currentRealIndex = offset % symbols.length;
-          const toEnd = symbols.length - currentRealIndex;
-          const stopOffsetIndex = toEnd + offset + stopIndex;
-          scrollToItem({
-            index: stopOffsetIndex + 1,
-            smooth: true,
+    async stopOn(stopIndex: number) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          this.stopSpin();
+          setOffsetIndex((offset) => {
+            const currentRealIndex = offset % symbols.length;
+            const toEnd = symbols.length - currentRealIndex;
+            const stopOffsetIndex = toEnd + offset + stopIndex;
+            scrollToItem({
+              index: stopOffsetIndex + 1,
+              smooth: true,
+            });
+            audioRef.current?.play();
+            resolve()
+            return stopOffsetIndex;
           });
-          return stopOffsetIndex;
-        });
-      }, 1000 * (MAX_BLOCKS - delayMultiplier + 1));
+        }, 1000 * (MAX_BLOCKS - delayMultiplier + 1));
+      });
     },
   }));
 
   return (
-    <div
-      ref={outerRef} // Attach the `outerRef` to the scroll container
-      style={{
-        width: "64px",
-        height: 64 * 3 + "px",
-        overflow: "hidden",
-      }}
-    >
-      {/* Attach the `innerRef` to the wrapper of the items */}
-      <div ref={innerRef}>
-        {items.map(({ index, size }) => (
-          // You can set the item's height with the `size` property
-          <div key={index} style={{ height: `${size}px`, fontSize: "3rem" }}>
-            {toEmoji(symbols[index % symbols.length])}
-          </div>
-        ))}
+    <>
+      <audio ref={audioRef}>
+        <source src="/blockstop.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <div
+        ref={outerRef} // Attach the `outerRef` to the scroll container
+        style={{
+          width: "64px",
+          height: 64 * 3 + "px",
+          overflow: "hidden",
+        }}
+      >
+        {/* Attach the `innerRef` to the wrapper of the items */}
+        <div ref={innerRef}>
+          {items.map(({ index, size }) => (
+            // You can set the item's height with the `size` property
+            <div key={index} style={{ height: `${size}px`, fontSize: "3rem" }}>
+              {toEmoji(symbols[index % symbols.length])}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 });

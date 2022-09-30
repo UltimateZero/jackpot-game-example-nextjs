@@ -8,26 +8,44 @@ import {
 import { LoopingBlock } from "./LoopingBlock";
 
 export const BlockList = forwardRef(function BlockList(_props, ref) {
+  const audioRef = useRef<HTMLAudioElement>(null);
+
   const blocksEls = useRef(new Array(3).fill(null));
   useImperativeHandle(ref, () => ({
     spin() {
+      audioRef.current?.play();
       blocksEls.current.forEach((block) => block.startSpin());
     },
     stopOn(result: Array<number>) {
-      blocksEls.current.forEach((block, index) => block.stopOn(result[index]));
+      blocksEls.current.forEach((block, index) => {
+        block.stopOn(result[index]).then(() => {
+          if (index === blocksEls.current.length - 1) {
+            setTimeout(() => {
+              audioRef.current?.pause();
+              audioRef.current?.load();
+            }, 500);
+          }
+        });
+      });
     },
   }));
 
   return (
-    <div className="list-container">
-      {blocksEls.current.map((_, index) => (
-        <LoopingBlock
-          key={index}
-          delayMultiplier={blocksEls.current.length - index}
-          ref={(element) => (blocksEls.current[index] = element)}
-        />
-      ))}
-      <div className="highlighter"></div>
-    </div>
+    <>
+      <audio ref={audioRef} loop>
+        <source src="/slot-machine-payout-81725.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <div className="list-container">
+        {blocksEls.current.map((_, index) => (
+          <LoopingBlock
+            key={index}
+            delayMultiplier={blocksEls.current.length - index}
+            ref={(element) => (blocksEls.current[index] = element)}
+          />
+        ))}
+        <div className="highlighter"></div>
+      </div>
+    </>
   );
 });

@@ -18,8 +18,8 @@ a {
 .list-container {
   position: relative;
   margin-top: 10px;
-  display: flex;
-  flex-flow: row nowrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .highlighter {
