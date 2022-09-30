@@ -15,22 +15,9 @@ a {
   box-sizing: border-box;
 }
 
-.block-done {
-  text-shadow: 5px 5px #558ABB;
-}
-
-.block {
-  border: 3px solid black;
-  display: flex;
-  flex-flow: column nowrap;
-  height: 64px;
-  overflow: hidden;
-  transition: all 0.2s ease-in-out;
-}
-
 .list-container {
   position: relative;
-  margin-top: 32px;
+  margin-top: 10px;
   display: flex;
   flex-flow: row nowrap;
 }
@@ -42,12 +29,11 @@ a {
   height: 64px;
   top: 68px;
   left: 0;
-  border: 5px solid black;
+  border: 4px solid  #8cd574;
 }
 
 .cashout-button {
   font-size: 32px;
   position: relative;
-  bottom: 40px;
-  left: 40px;
+ 
 }

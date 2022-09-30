@@ -12,6 +12,7 @@ export function CashoutButton(props: any) {
         const dir = Math.random() < 0.5 ? "translateX" : "translateY";
         const amount = 300 * (Math.random() < 0.5 ? -1 : 1);
         buttonRef.current?.style.setProperty("transform", `${dir}(${amount}px)`);
+    
     }
     if (shouldDisable) {
       console.log("Disabling");
