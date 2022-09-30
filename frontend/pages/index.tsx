@@ -12,7 +12,7 @@ import { useApp } from "../context/AppContext";
 const Home: NextPage = () => {
   const { balance, credit, login, updateCredit, updateBalance } = useAuth();
   const { soundEffectsEnabled, toggleSoundEffectsEnabled } = useApp();
-  const blockListRef = useRef(null);
+  const blockListRef = useRef<any>(null);
   const winAudioRef = useRef<HTMLAudioElement>(null);
   const cheerAudioRef = useRef<HTMLAudioElement>(null);
   const [spinning, setSpinning] = useState(false);

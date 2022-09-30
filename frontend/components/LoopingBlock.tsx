@@ -2,21 +2,10 @@ import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import useVirtual from "react-cool-virtual";
 import { useApp } from "../context/AppContext";
 
-// const symbolsMap = new Map<string, string>([
-//   ["cherry", "🍒"],
-//   ["lemon", "🍋"],
-//   ["orange", "🍊"],
-//   ["watermelon", "🍉"],
-// ]);
-// const symbols = Array.from(symbolsMap.keys());
-// const toEmoji = (fruit: string) => {
-//   return symbolsMap.get(fruit) || "🍒";
-// };
-
 const symbols = ["🍒", "🍋", "🍊", "🍉"];
 
 const NUM_BLOCKS = 3; // Number of blocks in the slot machine
-const ITEMS_COUNT = 15000;
+const ITEMS_COUNT = 15000; //arbitrary number of items to render in the virtual list, should be much higher than the number of symbols
 const SPIN_SPEED = 35; //ms
 const ITEM_SIZE = 120; //px
 
@@ -51,11 +40,11 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
         setOffsetIndex((offsetIndex) => {
           scrollToItem({
             index: offsetIndex % ITEMS_COUNT,
-            smooth: offsetIndex % ITEMS_COUNT === 0 ? false : true,
+            smooth: true
           });
           return (offsetIndex + 1) % ITEMS_COUNT;
         });
-      }, SPIN_SPEED * delayMultiplier);
+      }, SPIN_SPEED * delayMultiplier); // The last block spins the fastest, then the second last, etc.
     },
 
     async stopOn(stopIndex: number) {
@@ -64,8 +53,8 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
           this.stopSpin();
           setOffsetIndex((offset) => {
             const currentRealIndex = offset % symbols.length;
-            const toEnd = symbols.length - currentRealIndex;
-            const stopOffsetIndex = toEnd + offset + stopIndex;
+            const toEnd = symbols.length - currentRealIndex; // How many to go to the end of the "real" list i.e. 🍒🍋🍊🍉 (4)
+            const stopOffsetIndex = offset + toEnd + stopIndex; //  Go to the next "loop" of the real list, and then add the index we want to stop on
             scrollToItem({
               index: stopOffsetIndex + 1,
               smooth: true,
@@ -77,7 +66,7 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
             resolve(true);
             return stopOffsetIndex;
           });
-        }, 1000 * (NUM_BLOCKS - delayMultiplier + 1));
+        }, 1000 * (NUM_BLOCKS - delayMultiplier + 1)); // The first block stops after 1 second, then the second after 2 seconds, etc.
       });
     },
   }));

@@ -5,27 +5,24 @@ export function CashoutButton(props: any) {
   const buttonRef = useRef<HTMLDivElement>(null);
 
   const handleMouseOver = () => {
-    console.log("hovering");
-    const shouldMove = Math.random() < 0.5;
-    const shouldDisable = Math.random() < 0.4;
+    // TODO should they be mutually exclusive?
+    const shouldMove = Math.random() < 0.5; // 50% chance
+    const shouldDisable = Math.random() < 0.4; // 40% chance
     if (shouldMove) {
-      const dir = Math.random() < 0.5 ? "translateX" : "translateY";
-      const amount = 300 * (Math.random() < 0.5 ? -1 : 1);
+      const dir = Math.random() < 0.5 ? "translateX" : "translateY"; // 50% chance of moving in x or y direction
+      const amount = 300 * (Math.random() < 0.5 ? -1 : 1); // 50% chance of moving in positive or negative direction
       buttonRef.current?.style.setProperty("transform", `${dir}(${amount}px)`);
     }
     if (shouldDisable) {
-      console.log("Disabling");
       setDisabled(true);
     }
   };
   const handleMouseOut = () => {
-    console.log("not hovering");
     if(props.disabled) return
     setDisabled(false);
   };
 
   const handleClicked = () => {
-    console.log("clicked");
     props.onClicked?.()
   };
   return (

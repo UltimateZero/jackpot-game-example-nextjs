@@ -1,9 +1,7 @@
 import {
   forwardRef,
-  useEffect,
   useImperativeHandle,
   useRef,
-  useState,
 } from "react";
 import { useApp } from "../context/AppContext";
 import { LoopingBlock } from "./LoopingBlock";
@@ -50,7 +48,6 @@ export const BlockList = forwardRef(function BlockList(_props, ref) {
           />
         ))}
         <div className="absolute w-[360px] h-[120px] border-4 border-green-400 left-0 top-[120px]"></div>
-        {/* <div style={{fontSize: "80px"}}>🍒</div> */}
       </div>
     </>
   );
