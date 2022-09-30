@@ -16,3 +16,6 @@ export const createAccount = () => {
 export const sendRollRequest = () => {
   return axios.post(`http://localhost:4000/roll`)
 }
+export const sendCashoutRequest = () => {
+  return axios.post(`http://localhost:4000/cashout`)
+}

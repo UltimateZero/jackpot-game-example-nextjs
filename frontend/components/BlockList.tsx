@@ -35,7 +35,7 @@ export const BlockList = forwardRef(function BlockList(_props, ref) {
   return (
     <>
       <audio ref={audioRef} loop>
-        <source src="/slot-machine-payout-81725.mp3" type="audio/mpeg" />
+        <source src="/theyseemerolling.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
       <div className="mt-3 relative grid grid-cols-3">
@@ -46,7 +46,8 @@ export const BlockList = forwardRef(function BlockList(_props, ref) {
             ref={(element) => (blocksEls.current[index] = element)}
           />
         ))}
-        <div className="highlighter"></div>
+        <div className="absolute w-[360px] h-[120px] border-4 border-green-400 left-0 top-[120px]"></div>
+        {/* <div style={{fontSize: "80px"}}>🍒</div> */}
       </div>
     </>
   );

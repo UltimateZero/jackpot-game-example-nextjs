@@ -14,9 +14,10 @@ import useVirtual from "react-cool-virtual";
 
 const symbols = ["🍒", "🍋", "🍊", "🍉"];
 
-const MAX_BLOCKS = 3; // Number of blocks in the slot machine
+const NUM_BLOCKS = 3; // Number of blocks in the slot machine
 const ITEMS_COUNT = 15000;
 const SPIN_SPEED = 35; //ms
+const ITEM_SIZE = 120; //px
 
 export const LoopingBlock = forwardRef(function LoopingBlock(
   { delayMultiplier }: { delayMultiplier: number },
@@ -28,7 +29,7 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
   const { outerRef, innerRef, items, scrollToItem } =
     useVirtual<HTMLDivElement>({
       itemCount: ITEMS_COUNT,
-      itemSize: 64,
+      itemSize: ITEM_SIZE,
     });
 
   useImperativeHandle(ref, () => ({
@@ -70,10 +71,10 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
             if (process.env.NEXT_PUBLIC_AUDIO_EFFECTS === "true") {
               audioRef.current?.play();
             }
-            resolve();
+            resolve(true);
             return stopOffsetIndex;
           });
-        }, 1000 * (MAX_BLOCKS - delayMultiplier + 1));
+        }, 1000 * (NUM_BLOCKS - delayMultiplier + 1));
       });
     },
   }));
@@ -87,8 +88,8 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
       <div
         ref={outerRef} // Attach the `outerRef` to the scroll container
         style={{
-          width: "64px",
-          height: 64 * 3 + "px",
+          width: ITEM_SIZE+"px",
+          height: ITEM_SIZE * NUM_BLOCKS + "px",
           overflow: "hidden",
         }}
       >
@@ -96,7 +97,7 @@ export const LoopingBlock = forwardRef(function LoopingBlock(
         <div ref={innerRef}>
           {items.map(({ index, size }) => (
             // You can set the item's height with the `size` property
-            <div key={index} style={{ height: `${size}px`, fontSize: "3rem" }}>
+            <div key={index} style={{ height: `${size}px`, fontSize:"80px" }} className="select-none">
               {symbols[index % symbols.length]}
             </div>
           ))}

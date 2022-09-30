@@ -6,6 +6,7 @@ type authContextType = {
   balance: number;
   credit: number;
   updateCredit: (credit: number) => void;
+  updateBalance: (balance: number) => void;
   login: () => Promise<void>;
   logout: () => void;
 };
@@ -15,6 +16,7 @@ const authContextDefaultValues: authContextType = {
   balance: 0,
   credit: 0,
   updateCredit: () => {},
+  updateBalance: () => {},
   login: async () => {},
   logout: () => {},
 };
@@ -75,6 +77,9 @@ export function AuthProvider({ children }: Props) {
   const updateCredit = (credit: number) => {
     setCredit(credit);
   }
+  const updateBalance = (balance: number) => {
+    setBalance(balance);
+  }
 
 
 
@@ -85,6 +90,7 @@ export function AuthProvider({ children }: Props) {
     login,
     logout,
     updateCredit,
+    updateBalance
   };
 
   return (

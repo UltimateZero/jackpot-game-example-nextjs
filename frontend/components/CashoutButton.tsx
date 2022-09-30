@@ -20,11 +20,13 @@ export function CashoutButton(props: any) {
   };
   const handleMouseOut = () => {
     console.log("not hovering");
+    if(props.disabled) return
     setDisabled(false);
   };
 
   const handleClicked = () => {
     console.log("clicked");
+    props.onClicked?.()
   };
   return (
     <div
@@ -35,7 +37,7 @@ export function CashoutButton(props: any) {
     >
       <button
         className={"btn btn-warning btn-lg " + (props.className || "")}
-        disabled={disabled}
+        disabled={props.disabled || disabled}
         onClick={handleClicked}
       >
         💵 Cashout 💵

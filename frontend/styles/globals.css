@@ -6,7 +6,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Comic Sans", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: Bungee Spice, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
@@ -19,12 +19,3 @@ a {
   box-sizing: border-box;
 }
 
-.highlighter {
-  box-sizing: border-box;
-  position: absolute;
-  width: 192px;
-  height: 64px;
-  top: 68px;
-  left: 0;
-  border: 4px solid  #8cd574;
-}
