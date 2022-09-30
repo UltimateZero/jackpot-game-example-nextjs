@@ -1,9 +1,6 @@
 import React, {
   useEffect,
-  useState,
   useRef,
-  useImperativeHandle,
-  forwardRef,
 } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -12,11 +9,14 @@ import { useAuth } from "../context/AuthContext";
 import { sendRollRequest } from "../lib/get-account";
 import { CashoutButton } from "../components/CashoutButton";
 import { BlockList } from "../components/BlockList";
+import { doConfetti } from "../lib/confetti";
+
 
 const Home: NextPage = () => {
   const { user, balance, credit, login, logout, updateCredit } = useAuth();
   const blockListRef = useRef(null);
   const handlePlayClicked = () => {
+    doConfetti();
     blockListRef.current?.spin();
     sendRollRequest().then(({ data }) => {
       setTimeout(() => {
